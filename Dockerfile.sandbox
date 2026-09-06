@@ -1,0 +1,42 @@
+# =============================================================================
+# Kodex Sandbox — Secure Code Execution Environment
+# =============================================================================
+# This Dockerfile builds a minimal, hardened Python image for running
+# untrusted code (linting, testing) in isolation.
+#
+# Security features:
+#   - Non-root user (sandbox)
+#   - Minimal attack surface (slim image)
+#   - No network access (enforced at runtime)
+#   - Read-only filesystem (enforced at runtime)
+# =============================================================================
+
+FROM python:3.12-slim
+
+# ─── System Setup ───────────────────────────────────────────────────────────
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# ─── Install Python Tools ──────────────────────────────────────────────────
+RUN pip install --no-cache-dir \
+    ruff>=0.8.0 \
+    pytest>=8.0.0 \
+    pytest-json-report>=1.5.0 \
+    mypy>=1.13.0
+
+# ─── Create Non-Root User ──────────────────────────────────────────────────
+RUN groupadd -r sandbox && \
+    useradd -r -g sandbox -d /home/sandbox -s /bin/bash sandbox && \
+    mkdir -p /home/sandbox /workspace /tmp/patches && \
+    chown -R sandbox:sandbox /home/sandbox /workspace /tmp/patches
+
+# ─── Set Working Directory ──────────────────────────────────────────────────
+WORKDIR /workspace
+
+# ─── Switch to Non-Root User ────────────────────────────────────────────────
+USER sandbox
+
+# ─── Default Command ────────────────────────────────────────────────────────
+CMD ["python", "--version"]

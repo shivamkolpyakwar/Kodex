@@ -1,0 +1,50 @@
+# =============================================================================
+# Kodex — Dependencies
+# =============================================================================
+# Install: pip install -r requirements.txt
+# =============================================================================
+
+# ─── Core LLM & Agent Orchestration ─────────────────────────────────────────
+langgraph>=0.4.0
+langgraph-checkpoint-sqlite>=2.0.0
+langchain-openai>=0.3.0
+langchain-core>=0.3.0
+openai>=1.60.0
+
+# ─── RAG Pipeline ───────────────────────────────────────────────────────────
+llama-index>=0.12.0
+llama-index-vector-stores-qdrant>=0.4.0
+llama-index-embeddings-openai>=0.3.0
+qdrant-client>=1.12.0
+
+# ─── Code Analysis & Linting ────────────────────────────────────────────────
+ruff>=0.8.0
+
+# ─── Testing ────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-json-report>=1.5.0
+
+# ─── Git Integration ────────────────────────────────────────────────────────
+GitPython>=3.1.40
+
+# ─── Docker Sandbox ─────────────────────────────────────────────────────────
+docker>=7.0.0
+
+# ─── UI ─────────────────────────────────────────────────────────────────────
+streamlit>=1.40.0
+streamlit-autorefresh>=1.0.1
+pygments>=2.18.0
+
+# ─── Observability & Logging ────────────────────────────────────────────────
+structlog>=24.0.0
+python-dotenv>=1.0.0
+pydantic>=2.10.0
+pydantic-settings>=2.7.0
+
+# ─── Report Generation ──────────────────────────────────────────────────────
+markdown2>=2.5.0
+
+# ─── Utilities ──────────────────────────────────────────────────────────────
+rich>=13.0.0
+pyyaml>=6.0.0
+tenacity>=9.0.0

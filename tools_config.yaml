@@ -1,0 +1,37 @@
+# =============================================================================
+# Kodex — Custom Tool Registry Configuration
+# =============================================================================
+# Define additional tools that the agent can use during healing sessions.
+# Each tool must specify a name, description, command template, and timeout.
+#
+# Variables in commands:
+#   {file_path}  — Path to the target file
+#   {dir_path}   — Path to the target directory
+#   {query}      — User-provided query string
+#   {db_path}    — Path to a database file
+# =============================================================================
+
+custom_tools:
+  - name: "check_type_hints"
+    description: "Run mypy type checker on a Python file to detect type errors"
+    command: "mypy {file_path} --no-error-summary --no-color"
+    timeout: 30
+    language: "python"
+
+  - name: "run_sql_query"
+    description: "Execute a read-only SQL query against a SQLite database"
+    command: "sqlite3 -readonly {db_path} '{query}'"
+    timeout: 10
+    language: "sql"
+
+  - name: "check_security"
+    description: "Run bandit security linter on a Python file"
+    command: "bandit -r {file_path} -f json -q"
+    timeout: 30
+    language: "python"
+
+  - name: "format_code"
+    description: "Format a Python file using black formatter"
+    command: "black {file_path} --check --diff"
+    timeout: 15
+    language: "python"
