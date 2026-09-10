@@ -8,8 +8,10 @@ conditional routing, and checkpointer for persistence/replay.
 from __future__ import annotations
 
 import logging
+import sqlite3
 from pathlib import Path
 
+from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
 
@@ -156,9 +158,10 @@ def build_graph(
     if checkpointer_path:
         db_path = Path(checkpointer_path)
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        checkpointer = SqliteSaver.from_conn_string(str(db_path))
+        conn = sqlite3.connect(str(db_path), check_same_thread=False)
+        checkpointer = SqliteSaver(conn)
     else:
-        checkpointer = SqliteSaver.from_conn_string(":memory:")
+        checkpointer = MemorySaver()
 
     # ─── Compile ────────────────────────────────────────────────────────
     compile_kwargs: dict = {"checkpointer": checkpointer}
@@ -170,3 +173,4 @@ def build_graph(
 
     logger.info("✅ Agent graph compiled successfully")
     return graph
+
