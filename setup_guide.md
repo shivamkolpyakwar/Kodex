@@ -48,16 +48,17 @@ pip install -r requirements.txt
 cp .env.example .env
 
 # Edit .env with your values
-# Required: Set your OpenAI API key
-# OPENAI_API_KEY=sk-your-key-here
+# Required: Set your Groq API key
+# GROQ_API_KEY=gsk_your-key-here
+# GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
-### Getting an OpenAI API Key
+### Getting a Groq API Key
 
-1. Go to [platform.openai.com](https://platform.openai.com/)
+1. Go to [console.groq.com](https://console.groq.com/)
 2. Sign up or log in
-3. Navigate to **API Keys** → **Create new secret key**
-4. Copy the key and paste it into your `.env` file
+3. Navigate to **API Keys** → **Create API Key**
+4. Copy the key and paste it into your `.env` file (or Streamlit Secrets)
 
 ## Step 5: Set Up Qdrant (Vector Database)
 
@@ -96,7 +97,7 @@ python -c "
 from kodex.config import get_settings
 settings = get_settings()
 print('✅ Settings loaded')
-print(f'  Model: {settings.openai_model}')
+print(f'  Groq Model: {settings.groq_model}')
 print(f'  Qdrant: {settings.qdrant_url}')
 print(f'  Sandbox: {settings.sandbox_image}')
 "
@@ -171,13 +172,13 @@ docker-compose up -d qdrant
 docker-compose build sandbox
 ```
 
-### "OpenAI API key not set"
+### "Groq API key not set"
 
 **Cause:** The `.env` file is missing or the API key is empty.
 
 **Fix:**
 1. Ensure `.env` exists in the project root
-2. Set `OPENAI_API_KEY=sk-your-key-here`
+2. Set `GROQ_API_KEY=gsk_your-key-here`
 
 ### "Docker not available"
 

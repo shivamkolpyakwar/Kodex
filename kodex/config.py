@@ -40,14 +40,22 @@ class KodexSettings(BaseSettings):
         extra="ignore",
     )
 
-    # ─── LLM Provider ───────────────────────────────────────────────────
+    # ─── LLM Provider (Groq / OpenAI) ───────────────────────────────────
+    groq_api_key: str = Field(
+        default="",
+        description="Groq API key for ultra-fast LLM reasoning.",
+    )
+    groq_model: str = Field(
+        default="llama-3.3-70b-versatile",
+        description="Groq model name for reasoning tasks.",
+    )
     openai_api_key: str = Field(
         default="",
-        description="OpenAI API key for LLM and embedding calls.",
+        description="OpenAI API key (optional fallback or for embeddings).",
     )
     openai_model: str = Field(
         default="gpt-4o",
-        description="Model name for reasoning tasks.",
+        description="OpenAI model name for reasoning tasks.",
     )
     openai_embedding_model: str = Field(
         default="text-embedding-3-small",
@@ -163,6 +171,13 @@ class KodexSettings(BaseSettings):
 # Token Cost Lookup Table
 # =============================================================================
 MODEL_COSTS: dict[str, dict[str, float]] = {
+    # Groq Models (USD per 1K tokens)
+    "llama-3.3-70b-versatile": {"prompt": 0.00059, "completion": 0.00079},
+    "llama-3.1-70b-versatile": {"prompt": 0.00059, "completion": 0.00079},
+    "llama-3.1-8b-instant": {"prompt": 0.00005, "completion": 0.00008},
+    "mixtral-8x7b-32768": {"prompt": 0.00024, "completion": 0.00024},
+    "deepseek-r1-distill-llama-70b": {"prompt": 0.00075, "completion": 0.00099},
+    # OpenAI Models
     "gpt-4o": {"prompt": 0.0025, "completion": 0.01},
     "gpt-4o-mini": {"prompt": 0.00015, "completion": 0.0006},
     "gpt-4-turbo": {"prompt": 0.01, "completion": 0.03},

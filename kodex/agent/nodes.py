@@ -38,9 +38,34 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 # Helper: Create LLM Instance
 # =============================================================================
-def _get_llm() -> ChatOpenAI:
-    """Create a configured ChatOpenAI instance."""
+def _get_llm() -> Any:
+    """Create a configured LLM instance (Groq or OpenAI)."""
     settings = get_settings()
+
+    # Prioritize Groq API Key if provided
+    if settings.groq_api_key:
+        try:
+            from langchain_groq import ChatGroq
+
+            return ChatGroq(
+                model=settings.groq_model,
+                api_key=settings.groq_api_key,
+                temperature=0.1,
+                max_retries=2,
+                request_timeout=60,
+            )
+        except ImportError:
+            # Fallback to ChatOpenAI with Groq base_url (OpenAI-compatible)
+            return ChatOpenAI(
+                model=settings.groq_model,
+                api_key=settings.groq_api_key,
+                base_url="https://api.groq.com/openai/v1",
+                temperature=0.1,
+                max_retries=2,
+                request_timeout=60,
+            )
+
+    # Fallback to OpenAI
     return ChatOpenAI(
         model=settings.openai_model,
         api_key=settings.openai_api_key,
@@ -48,6 +73,7 @@ def _get_llm() -> ChatOpenAI:
         max_retries=2,
         request_timeout=60,
     )
+
 
 
 def _create_event(event_type: str, data: dict[str, Any], duration_ms: float = 0.0) -> SessionEvent:

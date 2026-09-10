@@ -4,6 +4,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Groq](https://img.shields.io/badge/LLM_Engine-Groq-f55036.svg)](https://groq.com/)
 [![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![Qdrant](https://img.shields.io/badge/Vector_DB-Qdrant-red.svg?logo=qdrant&logoColor=white)](https://qdrant.tech/)
 [![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -90,7 +91,7 @@ flowchart TD
 | **Python** | `3.10+` | Core agent runtime |
 | **Git** | `2.30+` | Version control & patch tracking |
 | **Docker Desktop** | Latest *(Optional)* | Secure sandbox & Qdrant container |
-| **OpenAI API Key** | `gpt-4o` / compatible | LLM reasoning engine |
+| **Groq API Key** | Free tier / paid | Ultra-fast LLM reasoning (`llama-3.3-70b`) |
 
 ### Installation
 
@@ -120,10 +121,10 @@ flowchart TD
    ```bash
    cp .env.example .env
    ```
-   Open `.env` and add your OpenAI API key:
+   Open `.env` and add your Groq API key:
    ```env
-   OPENAI_API_KEY=sk-your-openai-api-key-here
-   OPENAI_MODEL=gpt-4o
+   GROQ_API_KEY=gsk_your-groq-api-key-here
+   GROQ_MODEL=llama-3.3-70b-versatile
    ```
 
 5. **Start Services (Docker)**:
@@ -200,8 +201,9 @@ Kodex is configured via environment variables in `.env` and tool settings in `to
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `OPENAI_API_KEY` | `""` | OpenAI API key (required) |
-| `OPENAI_MODEL` | `gpt-4o` | Model used for reasoning and patching |
+| `GROQ_API_KEY` | `""` | Groq API key for ultra-fast reasoning (required) |
+| `GROQ_MODEL` | `llama-3.3-70b-versatile` | High-speed LLM model on Groq |
+| `OPENAI_API_KEY` | `""` | Optional fallback or for OpenAI embeddings |
 | `QDRANT_URL` | `http://localhost:6333` | URL of Qdrant vector database |
 | `SANDBOX_IMAGE` | `kodex-sandbox:latest` | Docker image tag for code sandbox |
 | `AGENT_MODE` | `auto` | Default operating mode (`auto` or `review`) |

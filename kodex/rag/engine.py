@@ -67,6 +67,29 @@ class RAGEngine:
         # Initialize the vector store and index
         self._init_index()
 
+    def _get_embed_model(self) -> Any:
+        """Get embedding model (OpenAI, FastEmbed, HuggingFace, or Mock fallback)."""
+        if self._settings.openai_api_key:
+            return OpenAIEmbedding(
+                model_name=self._settings.openai_embedding_model,
+                api_key=self._settings.openai_api_key,
+            )
+        try:
+            from llama_index.embeddings.fastembed import FastEmbedEmbedding
+
+            logger.info("ℹ️  Using FastEmbed (local free embeddings)")
+            return FastEmbedEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        except Exception:
+            try:
+                from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
+                return HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+            except Exception:
+                from llama_index.core.embeddings import MockEmbedding
+
+                logger.warning("⚠️  No embedding model available. Using MockEmbedding.")
+                return MockEmbedding(embed_dim=384)
+
     def _init_index(self) -> None:
         """Initialize the LlamaIndex vector store index."""
         try:
@@ -75,10 +98,7 @@ class RAGEngine:
                 collection_name=self._settings.qdrant_collection_name,
             )
 
-            embed_model = OpenAIEmbedding(
-                model_name=self._settings.openai_embedding_model,
-                api_key=self._settings.openai_api_key,
-            )
+            embed_model = self._get_embed_model()
 
             # Try to load existing index
             self._index = VectorStoreIndex.from_vector_store(
@@ -115,10 +135,7 @@ class RAGEngine:
                 return {"indexed": 0, "status": "empty"}
 
             # Build the index from documents
-            embed_model = OpenAIEmbedding(
-                model_name=self._settings.openai_embedding_model,
-                api_key=self._settings.openai_api_key,
-            )
+            embed_model = self._get_embed_model()
 
             vector_store = QdrantVectorStore(
                 client=self._client,
