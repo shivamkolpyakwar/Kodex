@@ -46,7 +46,7 @@ class KodexSettings(BaseSettings):
         description="Groq API key for ultra-fast LLM reasoning.",
     )
     groq_model: str = Field(
-        default="llama-3.3-70b-versatile",
+        default="openai/gpt-oss-20b",
         description="Groq model name for reasoning tasks.",
     )
     openai_api_key: str = Field(
@@ -172,6 +172,7 @@ class KodexSettings(BaseSettings):
 # =============================================================================
 MODEL_COSTS: dict[str, dict[str, float]] = {
     # Groq Models (USD per 1K tokens)
+    "openai/gpt-oss-20b": {"prompt": 0.000075, "completion": 0.0003},
     "llama-3.3-70b-versatile": {"prompt": 0.00059, "completion": 0.00079},
     "llama-3.1-70b-versatile": {"prompt": 0.00059, "completion": 0.00079},
     "llama-3.1-8b-instant": {"prompt": 0.00005, "completion": 0.00008},

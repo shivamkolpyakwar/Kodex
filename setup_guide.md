@@ -50,7 +50,7 @@ cp .env.example .env
 # Edit .env with your values
 # Required: Set your Groq API key
 # GROQ_API_KEY=gsk_your-key-here
-# GROQ_MODEL=llama-3.3-70b-versatile
+# GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 ### Getting a Groq API Key

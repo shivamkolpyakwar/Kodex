@@ -91,7 +91,7 @@ flowchart TD
 | **Python** | `3.10+` | Core agent runtime |
 | **Git** | `2.30+` | Version control & patch tracking |
 | **Docker Desktop** | Latest *(Optional)* | Secure sandbox & Qdrant container |
-| **Groq API Key** | Free tier / paid | Ultra-fast LLM reasoning (`llama-3.3-70b`) |
+| **Groq API Key** | Free tier / paid | Ultra-fast LLM reasoning (`gpt-oss-20b`) |
 
 ### Installation
 
@@ -124,7 +124,7 @@ flowchart TD
    Open `.env` and add your Groq API key:
    ```env
    GROQ_API_KEY=gsk_your-groq-api-key-here
-   GROQ_MODEL=llama-3.3-70b-versatile
+   GROQ_MODEL=openai/gpt-oss-20b
    ```
 
 5. **Start Services (Docker)**:
@@ -202,7 +202,7 @@ Kodex is configured via environment variables in `.env` and tool settings in `to
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `GROQ_API_KEY` | `""` | Groq API key for ultra-fast reasoning (required) |
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | High-speed LLM model on Groq |
+| `GROQ_MODEL` | `openai/gpt-oss-20b` | High-speed LLM model on Groq |
 | `OPENAI_API_KEY` | `""` | Optional fallback or for OpenAI embeddings |
 | `QDRANT_URL` | `http://localhost:6333` | URL of Qdrant vector database |
 | `SANDBOX_IMAGE` | `kodex-sandbox:latest` | Docker image tag for code sandbox |
