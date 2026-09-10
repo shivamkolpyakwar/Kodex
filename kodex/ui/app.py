@@ -13,6 +13,11 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+# ─── Ensure project root is on sys.path (required for Streamlit Cloud) ───
+_PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
 import streamlit as st
 
 # ─── Configure logging ──────────────────────────────────────────────────
